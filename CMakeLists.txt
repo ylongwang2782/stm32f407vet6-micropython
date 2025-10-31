@@ -68,3 +68,5 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 )
 
 include(${PROJECT_SOURCE_DIR}/cmake/flash_by_install.cmake)
+
+add_subdirectory(App)

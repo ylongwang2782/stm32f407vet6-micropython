@@ -16,8 +16,8 @@
 [build] Build finished with exit code 0
 ```
 
-+ 添加 clang 设置
-
++ 添加 clang Ninja设置
+ 确保 clangd 和 Ninja 已正确安装并配置
 ```bash
 {
     "code-runner.saveFileBeforeRun": true,

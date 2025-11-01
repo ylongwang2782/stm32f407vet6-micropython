@@ -1,6 +1,6 @@
 # stm32f407vet6-micropython
 
-本仓库旨在提供一个stm32f407vet6可用的micropython仓库示例
+A stm32f407vet6 micropython demo.
 
 ## Project Enviroment
 
@@ -14,12 +14,5 @@
 
 `git clone https://github.com/ylongwang2782/stm32f407vet6-micropython.git`
 
-- compile
-
-1. Use VScode/cusor open folder, ensure extension CMake Tools installed.
-2. VScode Command: CMake Build
-
-- download
-
-1. Use VScode/cusor open folder, ensure OpenOCD installed.
-2. VScode Command: CMake Install
+[How to Build](docs/build_guide.md)
+[How to Port](docs/MicroPython_Porting_Guide.md)

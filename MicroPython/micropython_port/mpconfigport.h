@@ -22,6 +22,9 @@
 #define MICROPY_ENABLE_GC                   (1)
 #define MICROPY_HELPER_REPL                 (1)
 
+// ==================== 内置函数支持 ====================
+#define MICROPY_PY_BUILTINS_HELP            (1)  // 启用 help() 函数
+
 // ==================== REPL 相关 ====================
 #define MICROPY_HELPER_LEXER_UNIX           (1)
 #define MICROPY_HELPER_INPUT_HISTORY        (1)  // 启用历史支持

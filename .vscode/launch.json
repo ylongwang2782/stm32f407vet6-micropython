@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/build/Debug/stm32f407vet6-micropython.elf",
+            "name": "Cortex-Debug",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/cmsis-dap.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "svdFile": "${workspaceRoot}/Scripts/STM32F4xx.svd",
+            // "searchDir": [
+            //     "C:/Users/ylong/Documents/env/OpenOCD/xpack-openocd-0.11.0-3/scripts/"
+            // ],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "rttConfig": {
+                "enabled": true,
+                "polling_interval": 1,
+                "address": "auto",
+                "decoders": [
+                    {
+                        "label": "",
+                        "port": 0,
+                        "type": "console"
+                    }
+                ]
+            }
+        }
+    ]
+}

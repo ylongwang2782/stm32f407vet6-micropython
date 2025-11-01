@@ -89,9 +89,6 @@ void MicroPythonTask(void *argument) {
     msg = "MP initialized\r\n";
     HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
     
-    printf("MicroPython on %s\r\n", MICROPY_HW_BOARD_NAME);
-    printf("Type \"help()\" for more information.\r\n");
-    
     // 启动 REPL
     for (;;) {
         if (pyexec_mode_kind == PYEXEC_MODE_RAW_REPL) {

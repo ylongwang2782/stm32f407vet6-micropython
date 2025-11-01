@@ -26,6 +26,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "stdio.h"
+#include <string.h>  // 需要 strlen
 
 /* USER CODE END Includes */
 
@@ -93,6 +94,10 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  
+  // 最早的测试输出 - 如果这个都没有，说明硬件有问题
+  const char *test_msg = "\r\n=== STM32 System Started ===\r\n";
+  HAL_UART_Transmit(&huart1, (uint8_t*)test_msg, strlen(test_msg), 1000);
 
   /* USER CODE END 2 */
 

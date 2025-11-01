@@ -6,7 +6,7 @@
 int app_main(void)
 {
     while (1) {
-        printf("Hello World\r\n");
+        // printf("Hello World\r\n");
         osDelay(1000);
     }
     return 0;

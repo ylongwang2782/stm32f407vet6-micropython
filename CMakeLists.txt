@@ -60,13 +60,15 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 # Remove wrong libob.a library dependency when using cpp files
 list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
 
+add_subdirectory(App)
+add_subdirectory(MicroPython)
+
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
-
+    micropython
     # Add user defined libraries
 )
 
 include(${PROJECT_SOURCE_DIR}/cmake/flash_by_install.cmake)
 
-add_subdirectory(App)

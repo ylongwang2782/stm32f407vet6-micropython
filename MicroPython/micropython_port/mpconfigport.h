@@ -24,7 +24,8 @@
 
 // ==================== REPL 相关 ====================
 #define MICROPY_HELPER_LEXER_UNIX           (1)
-#define MICROPY_HELPER_INPUT_HISTORY        (0)  // 暂时关闭历史支持
+#define MICROPY_HELPER_INPUT_HISTORY        (1)  // 启用历史支持
+#define MICROPY_READLINE_HISTORY_SIZE       (8)  // 历史记录条目数
 
 // ==================== 内存配置 ====================
 // 堆大小 - 根据你的 RAM 调整
@@ -49,12 +50,7 @@
 typedef long mp_off_t;
 
 // ==================== Port State 定义 ====================
-// 如果启用了 readline 历史支持，需要定义状态存储
-#if MICROPY_HELPER_INPUT_HISTORY
-#define MICROPY_PORT_ROOT_POINTERS \
-    const char *readline_hist[MICROPY_READLINE_HISTORY_SIZE];
-#endif
-
+// root pointers 由 MP_REGISTER_ROOT_POINTER 自动管理，不需要手动定义
 #define MP_STATE_PORT MP_STATE_VM
 
 #endif

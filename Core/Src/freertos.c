@@ -92,17 +92,30 @@ void MicroPythonTask(void *argument) {
     printf("MicroPython on %s\r\n", MICROPY_HW_BOARD_NAME);
     printf("Type \"help()\" for more information.\r\n");
     
+    msg = "[DEBUG] Starting REPL...\r\n";
+    HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+    
     // 启动 REPL
     for (;;) {
+        msg = "[DEBUG] REPL loop iteration\r\n";
+        HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+        
         if (pyexec_mode_kind == PYEXEC_MODE_RAW_REPL) {
+            msg = "[DEBUG] Calling pyexec_raw_repl()\r\n";
+            HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
             if (pyexec_raw_repl() != 0) {
                 break;
             }
         } else {
+            msg = "[DEBUG] Calling pyexec_friendly_repl()\r\n";
+            HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
             if (pyexec_friendly_repl() != 0) {
                 break;
             }
         }
+        
+        msg = "[DEBUG] REPL returned\r\n";
+        HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
     }
     
     // 清理

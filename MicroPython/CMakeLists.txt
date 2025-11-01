@@ -134,6 +134,9 @@ set(MICROPY_SOURCE_QSTR
     ${MICROPY_PY_DIR}/vm.c
     ${MICROPY_PY_DIR}/vstr.c
     ${MICROPY_PY_DIR}/warning.c
+    # shared/ files that contain root pointers
+    ${MICROPY_SHARED_DIR}/readline/readline.c
+    ${MICROPY_SHARED_DIR}/runtime/pyexec.c
 )
 
 # ==================== 包含目录 ====================
@@ -155,8 +158,8 @@ set(MICROPY_SHARED_SRC
     ${MICROPY_SHARED_DIR}/libc/printf.c
     ${MICROPY_SHARED_DIR}/libc/string0.c
     
-    # readline - 暂时禁用
-    # ${MICROPY_SHARED_DIR}/readline/readline.c
+    # readline
+    ${MICROPY_SHARED_DIR}/readline/readline.c
     
     # runtime
     ${MICROPY_SHARED_DIR}/runtime/pyexec.c

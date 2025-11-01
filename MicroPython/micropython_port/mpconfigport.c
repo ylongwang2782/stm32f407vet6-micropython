@@ -32,37 +32,8 @@ mp_import_stat_t mp_import_stat(const char *path) {
     return MP_IMPORT_STAT_NO_EXIST;
 }
 
-// ==================== Readline 支持（简单实现）====================
-// 简单的 readline 实现，用于 REPL
-char *readline(const char *prompt) {
-    // 打印提示符
-    mp_hal_stdout_tx_strn(prompt, strlen(prompt));
-    
-    // 简单的行输入缓冲区（静态分配）
-    static char line_buf[256];
-    int pos = 0;
-    
-    while (1) {
-        int c = mp_hal_stdin_rx_chr();
-        
-        if (c == '\r' || c == '\n') {
-            // 换行
-            line_buf[pos] = '\0';
-            mp_hal_stdout_tx_strn("\r\n", 2);
-            return line_buf;
-        } else if (c == 8 || c == 127) {
-            // 退格键
-            if (pos > 0) {
-                pos--;
-                mp_hal_stdout_tx_strn("\b \b", 3);
-            }
-        } else if (c >= 32 && c < 127 && pos < sizeof(line_buf) - 1) {
-            // 可打印字符
-            line_buf[pos++] = c;
-            mp_hal_stdout_tx_strn((char*)&c, 1);
-        }
-    }
-}
+// ==================== Readline 支持 ====================
+// MicroPython 自带的 readline.c 已经提供了完整实现，不需要我们自己实现
 
 // ==================== builtin open 支持 ====================
 // 简单的 open 实现（暂不支持文件系统）

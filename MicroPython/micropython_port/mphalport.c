@@ -1,5 +1,6 @@
 #include "mphalport.h"
 #include "main.h"  // CubeMX 生成的头文件
+#include <stdio.h>  // 需要 sprintf
 
 // 假设你的 UART 句柄是 huart1
 extern UART_HandleTypeDef huart1;
@@ -7,7 +8,7 @@ extern UART_HandleTypeDef huart1;
 // 接收字符（阻塞）
 int mp_hal_stdin_rx_chr(void) {
     uint8_t c = 0;
-    // 使用 HAL_MAX_DELAY 或自定义超时
+    // 使用 HAL_MAX_DELAY 阻塞等待
     HAL_UART_Receive(&huart1, &c, 1, HAL_MAX_DELAY);
     return c;
 }

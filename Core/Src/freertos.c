@@ -27,6 +27,13 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "py/compile.h"
+#include "py/runtime.h"
+#include "py/gc.h"
+#include "shared/runtime/pyexec.h"
+#include "usart.h"  // 需要访问 huart1
+#include <string.h> // 需要 strlen
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,6 +65,60 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
+
+// MicroPython 堆内存（静态分配）
+static char micropython_heap[32 * 1024];  // 32KB
+
+// MicroPython 任务函数
+void MicroPythonTask(void *argument) {
+    // 延迟一下，确保系统稳定启动
+    osDelay(100);
+    
+    // 发送启动信息（直接用 HAL，确保输出）
+    const char *msg = "\r\n=== MicroPython Starting ===\r\n";
+    HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+    
+    // 初始化 MicroPython
+    gc_init(micropython_heap, micropython_heap + sizeof(micropython_heap));
+    
+    msg = "GC initialized\r\n";
+    HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+    
+    mp_init();
+    
+    msg = "MP initialized\r\n";
+    HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+    
+    printf("MicroPython on %s\r\n", MICROPY_HW_BOARD_NAME);
+    printf("Type \"help()\" for more information.\r\n");
+    
+    // 启动 REPL
+    for (;;) {
+        if (pyexec_mode_kind == PYEXEC_MODE_RAW_REPL) {
+            if (pyexec_raw_repl() != 0) {
+                break;
+            }
+        } else {
+            if (pyexec_friendly_repl() != 0) {
+                break;
+            }
+        }
+    }
+    
+    // 清理
+    mp_deinit();
+    osThreadTerminate(NULL);
+}
+
+/* 定义任务属性 */
+const osThreadAttr_t micropython_task_attributes = {
+    .name = "MicroPython",
+    .stack_size = 4096 * 4,              // 16KB 堆栈（根据需要调整）
+    .priority = (osPriority_t) osPriorityNormal,
+};
+
+// 任务句柄（可选，用于后续控制）
+osThreadId_t micropythonTaskHandle;
 
 /* USER CODE END FunctionPrototypes */
 
@@ -97,6 +158,15 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+
+  /* 创建 MicroPython 任务 */
+  micropythonTaskHandle = osThreadNew(MicroPythonTask, 
+    NULL, 
+    &micropython_task_attributes);
+
+  if (micropythonTaskHandle == NULL) {
+  Error_Handler();  // 任务创建失败
+  }
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */

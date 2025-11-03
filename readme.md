@@ -10,9 +10,13 @@ A stm32f407vet6 micropython demo.
 
 ## How to use
 
-- download
-
-`git clone https://github.com/ylongwang2782/stm32f407vet6-micropython.git`
+- Build
 
 [How to Build](docs/build_guide.md)
-[How to Port](docs/MicroPython_Porting_Guide.md)
+
+- Setup and Test
+
+1. Build and download to stm32f407vet6 board.
+2. Connect usart1(PA9_PA10) via ttl to USB.
+3. Open serail port with 115200 baudrate on a serial terminal
+4. Type `help()` to test and get result.
